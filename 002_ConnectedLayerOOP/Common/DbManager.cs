@@ -18,29 +18,29 @@ namespace _002_ConnectedLayerOOP.Common
         protected DbTransaction _dbTransaction;
         protected DbDataReader _dataReader;
 
-        protected Dictionary<Dbtable, ObservableCollection<IDataEntity>> _dataTables;
-        //protected List<Dbtable> _dataTables;
+        protected Dictionary<DBTable, ObservableCollection<IDataEntity>> _dataTables;
+
+        //protected List<DBTable> _dataTables;
 
         public DbManager()
         {
-            _dataTables = new Dictionary<Dbtable, ObservableCollection<IDataEntity>>();
+            _dataTables = new Dictionary<DBTable, ObservableCollection<IDataEntity>>();
 
             Init();
-
         }
 
-        public DbRow this[string tableName]
+        public DBTable this[string tableName]
         {
             get
             {
                 foreach (var tableInfo in _dataTables)
                 {
-                    if(tableInfo.Key.Name == tableName)
+                    if (tableInfo.Key.Name == tableName)
                     {
-                        return tableInfo.Key.Head;
+                        return tableInfo.Key;
                     }
                 }
-                throw new ArgumentException("Table is not exists");
+                throw new ArgumentException("Table is Not Exists");
             }
         }
 
@@ -57,15 +57,16 @@ namespace _002_ConnectedLayerOOP.Common
                             DbProviderFactories.RegisterFactory(prividerName, System.Data.SqlClient.SqlClientFactory.Instance);
                             _dbProviderFactory = DbProviderFactories.GetFactory(prividerName);
                             _connectionString = ConfigurationManager.ConnectionStrings["SqlProvider"].ConnectionString;
-
                             _dbConnection = _dbProviderFactory.CreateConnection();
                             _dbConnection.ConnectionString = _connectionString;
                             _dbCommand = _dbProviderFactory.CreateCommand();
                             _dbCommand.Connection = _dbConnection;
 
-                            GetAllTable();
-
-
+                            GetAllTables();
+                            //foreach (var item in _dataTables.Keys)
+                            //{
+                            //    GetAllData(item);
+                            //}
                             break;
                         }
                     case "Oracle":
@@ -80,166 +81,72 @@ namespace _002_ConnectedLayerOOP.Common
                         }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
-            //GetAllTableName();
-            //GetDataFromDB();
-
         }
 
-        //Получаем имена таблиц с БД
-        private void GetAllTable() 
+        private void GetAllTables()
         {
-            //_dbConnection.ConnectionString = _connectionString;
+            //должен заполнить _dataTables (получаем имена таблиц в Бд)
             _dbConnection.Open();
 
             _dbCommand.CommandText = "SELECT * FROM INFORMATION_SCHEMA.TABLES";
-
-            List<string> tmplist  = new List<string>();
-
-            using(_dataReader = _dbCommand.ExecuteReader())
+            List<string> tmpList = new List<string>();
+            using (_dataReader = _dbCommand.ExecuteReader())
             {
-                while(_dataReader.Read()) 
+                while (_dataReader.Read())
                 {
-                    
-                    Dbtable dbtable = new Dbtable(_dataReader["TABLE_NAME"].ToString(), GetTableShema(_dataReader["TABLE_NAME"].ToString()));
-                    _dataTables.Add(dbtable, new ObservableCollection<IDataEntity>());
+                    tmpList.Add(_dataReader["TABLE_NAME"].ToString());
                 }
-
             }
-            //DataTable dt = _dbConnection.GetSchema("Tables");
-
-            //foreach (DataRow row in dt.Rows)
-            //{
-            //    string tablename = (string)row[2];
-
-            //    if (tablename != "sysdiagrams")
-            //    {
-            //        _dataTables.Add(tablename, new List<IDataEntity>());
-            //    }
-            //}
+            foreach (string tblName in tmpList)
+            {
+                DBTable dBTable = new DBTable(tblName, GetTableShema(tblName));
+                _dataTables.Add(dBTable, new ObservableCollection<IDataEntity>());
+            }
 
             _dbConnection.Close();
         }
-
         private DbRow GetTableShema(string tableName)
         {
             DbCommand dbCommand = _dbProviderFactory.CreateCommand();
-            dbCommand.CommandText = $"SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = N'{tableName}'";
-
+            dbCommand.CommandText = $"SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'{tableName}'";
             dbCommand.Connection = _dbConnection;
 
             DbRow dbRow;
-            using(DbDataReader dbR = dbCommand.ExecuteReader())
+            using (DbDataReader dbR = dbCommand.ExecuteReader())
             {
                 dbRow = new DbRow(dbR.FieldCount);
-                while(dbR.Read()) 
-                { 
+                while (dbR.Read())
+                {
                     DbColumn dbColumn = new DbColumn(
                             Convert.ToInt32(dbR["ORDINAL_POSITION"]),
                             dbR["COLUMN_NAME"].ToString(),
-                            dbR["IS_NULLABLE"].ToString() == "NO"? false:true
-                        );;
-                
+                            dbR["IS_NULLABLE"].ToString() == "NO" ? false : true
+                    );
                     dbRow.AddColumn(dbColumn);
                 }
+            }
+            return dbRow;
+        }
 
+        private void GetAllData(DBTable table)
+        {
+            _dbConnection.Open();
+
+            _dbCommand.CommandText = $"SELECT * FROM {table.Name}";
+
+            using (DbDataReader dbR = _dbCommand.ExecuteReader())
+            {
+                while (dbR.Read())      //перебираем каждую строку 
+                {
+                    //_dataTables[table].Add()
+                }
             }
 
-
-            return null;
+            _dbConnection.Close();
         }
-
-
-
-        private void GetAllData(string tableName)
-        {
-
-
-
-
-
-            //_dbConnection.ConnectionString = _connectionString;
-            //_dbConnection.Open();
-
-            //_dbCommand.CommandText = $"SELECT * FROM {tableName}";
-
-            //if (tableName == "users")
-            //{
-            //    DbDataReader dbAllUser = _dbCommand.ExecuteReader();
-                
-            //    while (dbAllUser.Read())
-            //    {
-            //            User user = new User();
-            //            user.Id = int.Parse(dbAllUser["Id"].ToString());
-            //            user.Login = dbAllUser["login"].ToString();
-            //            user.Email = dbAllUser["email"].ToString();
-            //            user.Password = dbAllUser["password"].ToString();
-                        
-            //        _dataTables[tableName].Add(user);
-            //    }
-            //}
-            //else if (tableName == "usersInfo")
-            //{
-            //    DbDataReader dbAllUser = _dbCommand.ExecuteReader();
-
-            //    while (dbAllUser.Read())
-            //    {
-            //        UserInfo userInf = new UserInfo();
-            //        userInf.Id = int.Parse(dbAllUser["Id"].ToString());
-            //        userInf.UserId = int.Parse(dbAllUser["userId"].ToString());
-            //        userInf.Fio = dbAllUser["fio"].ToString();
-            //        userInf.Inn = dbAllUser["inn"].ToString();
-            //        userInf.BirthDate = ((DateTime)dbAllUser["birthDate"]);
-            //        userInf.Gender = dbAllUser["gender"].ToString();
-                    
-            //        _dataTables[tableName].Add(userInf);
-            //    }
-            //}
-
-            //_dbConnection.Close();
-            ////должен заполнить _dataTables (получаем данные из таблиц и сохраняем в _dataTables)
-        }
-
-        /// <summary>
-        /// Читает данные из таблиц на основе заранее полученых их названий
-        /// </summary>
-        //private void GetDataFromDB() 
-        //{
-        //    foreach (var item in _dataTables)
-        //    {
-        //        GetAllData(item.Key);
-        //    }
-        //}
-
-
-        /////********-------------------------PUBLIC-------------------------********///////
-        //public void ShowUsersFromLocalStorage()
-        //{
-        //    foreach (var item in _dataTables)
-        //    {
-        //        if(item.Key == "users")
-        //        foreach (var data in item.Value)
-        //        {
-        //            Console.WriteLine(data);
-        //        }
-        //    }
-        //}
-
-        //public void ShowUsersInfoFromLocalStorage()
-        //{
-        //    foreach (var item in _dataTables)
-        //    {
-        //        if (item.Key == "usersInfo")
-        //            foreach (var data in item.Value)
-        //            {
-        //                Console.WriteLine(data);
-        //            }
-        //    }
-        //}
-
-
     }
 }

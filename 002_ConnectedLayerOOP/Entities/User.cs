@@ -18,7 +18,10 @@ namespace _002_ConnectedLayerOOP.Entities
 
         public override string ToString()
         {
-            return $"Id: {Id}, Login: {Login}, Pass: {Password}, Email: {Email}";
+            return $"\n\tId: {Id};" +
+                $"\n\tLogin: {Login}; " +
+                $"\n\tEmail: {Email};" +
+                $"\n\tPassword: {Password}.";
         }
     }
 }

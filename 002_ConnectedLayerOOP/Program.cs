@@ -1,4 +1,5 @@
 ﻿using _002_ConnectedLayerOOP.Common;
+using _002_ConnectedLayerOOP.Storages;
 using System;
 
 namespace _002_ConnectedLayerOOP
@@ -7,16 +8,12 @@ namespace _002_ConnectedLayerOOP
     {
         static void Main(string[] args)
         {
-           
-            DbManager dbManager = new DbManager();
-            Console.WriteLine( dbManager);
+            UsersStorage usersStorage = new UsersStorage();
+            foreach (var item in usersStorage.Users)
+            {
+                Console.WriteLine(item);
+            }
 
-
-            //Console.WriteLine("Users: ");
-            //dbManager.ShowUsersFromLocalStorage();
-
-            //Console.WriteLine("\n\nUserInfo: ");
-            //dbManager.ShowUsersInfoFromLocalStorage();
         }
     }
 }

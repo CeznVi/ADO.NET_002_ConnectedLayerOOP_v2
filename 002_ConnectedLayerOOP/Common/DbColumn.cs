@@ -23,9 +23,14 @@ namespace _002_ConnectedLayerOOP.Common
 
         }
 
-        public string Name { get { return _name; } }
+        public string Name
+        {
+            get { return _name; }
+        }
 
-        public bool NotNull { get { return _notNull;} }
-
+        public bool NotNull
+        {
+            get { return _notNull; }
+        }
     }
 }
