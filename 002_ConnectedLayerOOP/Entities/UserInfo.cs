@@ -23,7 +23,8 @@ namespace _002_ConnectedLayerOOP.Entities
 
         public override string ToString()
         {
-            return $"Id: {Id}, UserId:{UserId}, FIO: {Fio}, Inn: {Inn}, BDay: {BirthDate}, Gende: {Gender}";
+            return $"Id: {Id}, UserId:{UserId}, FIO: {Fio}, Inn: {Inn}, BDay: {BirthDate.ToShortDateString()}, Genre: {Gender}" +
+                $"\t User: {User}";
         }
     }
 }
