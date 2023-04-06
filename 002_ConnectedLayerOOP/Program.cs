@@ -9,6 +9,7 @@ namespace _002_ConnectedLayerOOP
         static void Main(string[] args)
         {
             UsersStorage usersStorage = new UsersStorage();
+            
             foreach (var item in usersStorage.Users)
             {
                 Console.WriteLine(item);
