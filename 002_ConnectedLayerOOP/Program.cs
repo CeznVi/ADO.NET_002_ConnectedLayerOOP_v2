@@ -17,27 +17,12 @@ namespace _002_ConnectedLayerOOP
             Console.ReadKey();
             Console.Clear();
 
-            Console.WriteLine("Внесем некоторые изменения и выведем на екран данные с измененияем");
-
-            usersInfoStorage.UsersInfo[0].Fio = "!!!!!NEW DATA !!!!";
+            Console.WriteLine("Внесем некоторые изменения и выведем на екран данные с измененияем в нашем класе");
+            usersInfoStorage.UsersInfo[2].GenerateRandomFio();
+            usersInfoStorage.UsersInfo[3].GenerateRandomFio();
             usersInfoStorage.ShowInConsoleDataWithChanged();
 
 
-            //foreach (var item in usersStorage.Users)
-            //{
-            //    Console.WriteLine(item);
-            //}
-
-            //Console.WriteLine("Для продолжение нажмите любую клавишу");
-            //Console.ReadKey();
-            //Console.Clear();
-
-            //usersInfoStorage.UsersInfo[0].Fio = "!!!!!!!!!!!!!!!!!!NEWWWWWWW";
-
-            //Console.WriteLine("Для продолжение нажмите любую клавишу");
-            //Console.ReadKey();
-            //Console.Clear();
-            //Console.WriteLine("Тест изменений");
 
         }
     }

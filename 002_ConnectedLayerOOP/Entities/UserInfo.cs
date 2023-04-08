@@ -117,5 +117,16 @@ namespace _002_ConnectedLayerOOP.Entities
                 $"\nUser:{User}\n";
         }
 
+
+        public void GenerateRandomFio()
+        {
+            Random r = new Random();
+            string newName = string.Empty;
+            for (int i = 0; i < 20; i++) 
+            {
+                newName += (char)r.Next(97, 122);
+            }
+            Fio = newName;
+        }
     }
 }
