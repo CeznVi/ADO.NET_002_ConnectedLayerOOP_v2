@@ -14,7 +14,7 @@ namespace _002_ConnectedLayerOOP.Entities
         private int _userId;
         private string _fio;
         private string _inn;
-        private string _bithDate;
+        private DateTime _bithDate;
         private string _gender;
         private bool _isChanged = false;
 
@@ -53,23 +53,44 @@ namespace _002_ConnectedLayerOOP.Entities
             { 
                 _fio = value;
                 IsChanged = true;
-            } 
+            }
         }
-        
         /// <summary>
         /// Свойство поля inn
         /// </summary>
-        public string Inn { get; set; }
-
-
+        public string Inn
+        {
+            get { return _inn; }
+            set 
+            { 
+                _inn = value;
+                IsChanged = true;
+            }
+        }
         /// <summary>
         /// Свойство поля bday
         /// </summary>
-        public DateTime BirthDate { get; set; }
+        public DateTime BirthDate 
+        { 
+            get { return _bithDate; } 
+            set
+            {
+                _bithDate = value;
+                IsChanged = true;
+            }
+        }
         /// <summary>
         /// Свойство поля gender
         /// </summary>
-        public string Gender { get; set; }
+        public string Gender 
+        { 
+            get { return _gender; } 
+            set 
+            { 
+                _gender = value;
+                IsChanged = true;
+            }
+        }
         /// <summary>
         /// Свойство поля User
         /// </summary>
@@ -87,8 +108,10 @@ namespace _002_ConnectedLayerOOP.Entities
 
         public override string ToString()
         {
-            return $"Id: {Id}, UserId:{UserId}, FIO: {Fio}, Inn: {Inn}, BDay: {BirthDate.ToShortDateString()}, Genre: {Gender}" +
-                $"\t User: {User}";
+            //$"Id: {Id}, UserId:{UserId}, FIO: {Fio}, Inn: {Inn}, BDay: {BirthDate.ToShortDateString()}, Genre: {Gender}" +
+            //    $"\t User: {User}"
+            return $"UserId:{UserId}, FIO: {Fio}, Inn: {Inn}, BDay: {BirthDate.ToShortDateString()}, Genre: {Gender}" +
+                $"\nUser:{User}\n";
         }
 
     }

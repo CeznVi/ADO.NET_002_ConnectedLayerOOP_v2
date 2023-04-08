@@ -29,6 +29,7 @@ namespace _002_ConnectedLayerOOP
                 Console.WriteLine(item);
             }
 
+
             usersInfoStorage.UsersInfo[0].Fio = "!!!!!!!!!!!!!!!!!!NEWWWWWWW";
 
             Console.WriteLine("Для продолжение нажмите любую клавишу");
