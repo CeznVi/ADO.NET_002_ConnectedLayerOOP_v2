@@ -22,8 +22,16 @@ namespace _002_ConnectedLayerOOP
             usersInfoStorage.UsersInfo[3].GenerateRandomFio();
             usersInfoStorage.ShowInConsoleDataWithChanged();
 
+            Console.WriteLine("Теперь сохраним все измененные данные в базу данных");
+            usersInfoStorage.SaveClassDataToBD();
 
+            Console.WriteLine("Для продолжение нажмите любую клавишу");
+            Console.ReadKey();
+            Console.Clear();
 
+            Console.WriteLine("Очистим наш класс и загрузим в него данные снова из БД и выведем на екран");
+            usersInfoStorage = new UsersInfoStorage();
+            usersInfoStorage.ShowInConsoleAll();
         }
     }
 }
