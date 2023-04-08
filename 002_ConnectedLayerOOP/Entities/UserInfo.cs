@@ -95,7 +95,6 @@ namespace _002_ConnectedLayerOOP.Entities
         /// Свойство поля User
         /// </summary>
         public User User { get; set; }
-
         /// <summary>
         /// Свойство поля которая хранит изменения в полях класаа
         /// </summary>
@@ -105,7 +104,11 @@ namespace _002_ConnectedLayerOOP.Entities
             set { _isChanged = value; }
         }
 
-
+        /* ____________-------------------- Методы класса --------------------____________ */
+        /// <summary>
+        /// Возвращает строку с данными UserInfo
+        /// </summary>
+        /// <returns>Возвращает строку с данными UserInfo</returns>
         public override string ToString()
         {
             //$"Id: {Id}, UserId:{UserId}, FIO: {Fio}, Inn: {Inn}, BDay: {BirthDate.ToShortDateString()}, Genre: {Gender}" +

@@ -8,35 +8,37 @@ namespace _002_ConnectedLayerOOP
     {
         static void Main(string[] args)
         {
-            UsersStorage usersStorage = new UsersStorage();
-
             UsersInfoStorage usersInfoStorage = new UsersInfoStorage();
-
-
-            foreach (var item in usersStorage.Users)
-            {
-                Console.WriteLine(item);
-            }
-
-            Console.WriteLine("Для продолжение нажмите любую клавишу");
-            Console.ReadKey();
-            Console.Clear();
             Console.WriteLine("Информация с таблицы ЮзерИнфо");
 
-            foreach (var item in usersInfoStorage.UsersInfo)
-            {
-                item.User = usersStorage.Users.Find(x => x.Id == item.UserId);
-                Console.WriteLine(item);
-            }
-
-
-            usersInfoStorage.UsersInfo[0].Fio = "!!!!!!!!!!!!!!!!!!NEWWWWWWW";
-
+            usersInfoStorage.ShowInConsoleAll();
+            
             Console.WriteLine("Для продолжение нажмите любую клавишу");
             Console.ReadKey();
             Console.Clear();
-            Console.WriteLine("Тест изменений");
-            usersInfoStorage.ShowInConsoleAll();
+
+            Console.WriteLine("Внесем некоторые изменения и выведем на екран данные с измененияем");
+
+            usersInfoStorage.UsersInfo[0].Fio = "!!!!!NEW DATA !!!!";
+            usersInfoStorage.ShowInConsoleDataWithChanged();
+
+
+            //foreach (var item in usersStorage.Users)
+            //{
+            //    Console.WriteLine(item);
+            //}
+
+            //Console.WriteLine("Для продолжение нажмите любую клавишу");
+            //Console.ReadKey();
+            //Console.Clear();
+
+            //usersInfoStorage.UsersInfo[0].Fio = "!!!!!!!!!!!!!!!!!!NEWWWWWWW";
+
+            //Console.WriteLine("Для продолжение нажмите любую клавишу");
+            //Console.ReadKey();
+            //Console.Clear();
+            //Console.WriteLine("Тест изменений");
+
         }
     }
 }
