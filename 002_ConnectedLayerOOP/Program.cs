@@ -26,11 +26,16 @@ namespace _002_ConnectedLayerOOP
             foreach (var item in usersInfoStorage.UsersInfo)
             {
                 item.User = usersStorage.Users.Find(x => x.Id == item.UserId);
-
                 Console.WriteLine(item);
             }
 
+            usersInfoStorage.UsersInfo[0].Fio = "!!!!!!!!!!!!!!!!!!NEWWWWWWW";
 
+            Console.WriteLine("Для продолжение нажмите любую клавишу");
+            Console.ReadKey();
+            Console.Clear();
+            Console.WriteLine("Тест изменений");
+            usersInfoStorage.ShowInConsoleAll();
         }
     }
 }
